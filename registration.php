@@ -60,7 +60,7 @@
             Enter Your Gender:
             <input type="radio" name="gender" value="Male" required> Male
             <input type="radio" name="gender" value="Female"> Female
-            <input type="radio" name="gender" value="Other"> Other
+            <input type="radio" name="gender" value="Other"> faiz
             <br>
 
             Enter Your Password:
