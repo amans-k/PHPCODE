@@ -1,41 +1,106 @@
 <?php
+session_start();
 include("database.php");
+
+// 🔐 login check
+if(!isset($_SESSION['user_id'])){
+    header("Location: login.php");
+    exit();
+}
+
 if(isset($_GET['id'])){
     $id = base64_decode(base64_decode($_GET['id']));
-    $enc_id =$_GET['id'];
-    $query = "select * from users where id = $id";
+    $enc_id = $_GET['id'];
+
+    $query = "SELECT * FROM users WHERE id='$id'";
     $res = mysqli_query($conn,$query);
-    $cnt = mysqli_num_rows($res);
-    $row = mysqli_fetch_assoc($res);
-    if($cnt <= 0){
-        header("Location:dashboard.php");
+
+    if(mysqli_num_rows($res) == 1){
+        $row = mysqli_fetch_assoc($res);
+    } else {
+        header("Location: dashboard.php");
+        exit();
     }
-}
-else{
-    header("Location:dashboard.php");
+} else {
+    header("Location: dashboard.php");
+    exit();
 }
 ?>
+
 <html>
-    <head><title>User Edit</title></head>
-    <body>
-        <form action="authentication.php" method="post">
-            <input type="hidden" name="uid" value="<?php echo $enc_id ?>"  required />
-            Enter Your Username:
-            <input type="text" name="username" value="<?php echo $row['username']  ?>" placeholder="Enter username" required>
-            <br>
+<head>
+    <title>Edit User</title>
 
-            Enter Your Phone Number:
-            <input type="text" name="phone" value="<?php echo $row['contact']  ?>" placeholder="Enter phone number" required>
-            <br>
+    <style>
+        body {
+            background: lavender;
+            font-family: Arial;
+        }
 
-            Enter Your Email:
-            <input type="email" name="email" value="<?php echo $row['email']  ?>" placeholder="Enter email" required>
-            <br>
+        .container {
+            width: 350px;
+            margin: 80px auto;
+            background: lightgreen;
+            padding: 20px;
+            border-radius: 10px;
+        }
 
-            <div class="button">
-                <input type="submit" name="btnsubmit" value="Update User" style="padding:5px 15px;">
-            </div>
+        input {
+            width: 100%;
+            padding: 6px;
+            margin: 6px 0;
+        }
 
-        </form>
-    </body>
+        .btn {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .btn input {
+            padding: 6px 20px;
+            background: green;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .back {
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h3 style="text-align:center;">Edit Profile</h3>
+
+    <form action="authentication.php" method="post">
+
+        <input type="hidden" name="uid" value="<?php echo $enc_id ?>" />
+
+        Username:
+        <input type="text" name="username" value="<?php echo $row['username'] ?>" required>
+
+        Phone:
+        <input type="text" name="phone" value="<?php echo $row['phone'] ?>" required>
+
+        Email:
+        <input type="email" name="email" value="<?php echo $row['email'] ?>" required>
+
+        <div class="btn">
+            <input type="submit" name="btnsubmit" value="Update User">
+        </div>
+
+    </form>
+
+    <div class="back">
+        <a href="dashboard.php">⬅ Back to Dashboard</a>
+    </div>
+
+</div>
+
+</body>
 </html>

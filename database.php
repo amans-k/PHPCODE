@@ -1,7 +1,7 @@
 <?php
-    $conn = new mysqli("localhost","root","admin","bca26");
-    if(!$conn){
-        echo "Error while connecting database";
-        die();
-    }
+$conn = new mysqli("localhost","root","","bca26");
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 ?>

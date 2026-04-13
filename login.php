@@ -7,70 +7,97 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Student Login</title>
 
     <style>
-        .register {
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .login {
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 10px;
-            width: 100vw;
             height: 100vh;
             background-color: lavender;
-            border-radius: 10px;
-            font-size: large;
         }
 
         form {
             background: lightgreen;
-            padding: 20px;
+            padding: 25px;
             border-radius: 10px;
+            width: 300px;
+            font-size: 15px;
         }
 
         input {
-            margin: 5px 0;
+            width: 100%;
+            padding: 6px;
+            margin: 6px 0;
         }
 
         .button {
             text-align: center;
             margin-top: 10px;
-            color: yellowgreen;
+        }
+
+        .button input {
+            width: auto;
+            padding: 6px 20px;
+            background: green;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .error {
+            color: red;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 10px;
         }
     </style>
 </head>
 
 <body>
-    <div class="register">
-        <form action="authentication.php" method="post">
-            Enter Your Username:
-            <input type="text" name="username" placeholder="Enter username" required>
-            <br>
 
-            Enter Your Password:
-            <input type="password" name="password" placeholder="Enter password" required>
-            <br>
+    <div class="login">
+        <form action="authentication.php" method="post">
+
+            <h3 style="text-align:center;">Student Login</h3>
+
+            Username:
+            <input type="text" name="username" placeholder="Enter Username" required>
+
+            Password:
+            <input type="password" name="password" placeholder="Enter Password" required>
 
             <div class="button">
-                <input type="submit" name="btnsubmit" value="Login" style="padding:5px 15px;">
+                <!-- 🔥 FIXED: btnsubmit match authentication.php -->
+                <input type="submit" name="btnsubmit" value="Login">
             </div>
-            <div style="color:red;text-align:center">
+
+            <div class="error">
                 <?php
-                    if(isset($_SESSION['error'])){
-                        if($_SESSION['error'] == "1"){
-                            if(isset($_SESSION['message'])){
-                                if($_SESSION['message'] != ""){
-                                    echo $_SESSION['message'];
-                                    unset($_SESSION['error']);
-                                    unset($_SESSION['message']);
-                                }
-                            }
-                        }
-                    }
+                if(isset($_SESSION['error'])){
+                    echo $_SESSION['error'];
+                    unset($_SESSION['error']);
+                }
                 ?>
             </div>
+
+            <div class="register-link">
+                Don't have an account? <a href="registration.php">Register</a>
+            </div>
+
         </form>
     </div>
+
 </body>
 
 </html>
